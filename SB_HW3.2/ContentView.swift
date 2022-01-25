@@ -56,9 +56,19 @@ struct ColorSliderView: View {
                 .frame(width: 35, alignment: .leading)
             Slider(value: $value, in: 0...255, step: 1)
                 .accentColor(color)
+                .padding(.trailing, 40)
+            TextField("", text: $value.str)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.decimalPad)
+                .frame(width: 50)
         }
     }
 }
+
+extension Double {
+     var str: String {
+         get { String(lround(self)) }
+         set { self = Double(newValue) ?? 0.0}
+     }
+ }
 
