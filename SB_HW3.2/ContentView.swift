@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var greenSliderValue = Double.random(in: 0...255)
     @State private var blueSliderValue = Double.random(in: 0...255)
     
+    @FocusState var isInputActive: Bool
+    
     var body: some View {
         
         VStack{
@@ -33,6 +35,15 @@ struct ContentView: View {
         }
         .padding()
         .background(.cyan)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    isInputActive = false
+                }
+            }
+        }
+        .focused($isInputActive)
     }
 }
 
@@ -61,14 +72,16 @@ struct ColorSliderView: View {
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.decimalPad)
                 .frame(width: 50)
+                
+                
         }
     }
 }
 
 extension Double {
-     var str: String {
-         get { String(lround(self)) }
-         set { self = Double(newValue) ?? 0.0}
-     }
- }
+    var str: String {
+        get { String(lround(self)) }
+        set { self = Double(newValue) ?? 0.0}
+    }
+}
 
