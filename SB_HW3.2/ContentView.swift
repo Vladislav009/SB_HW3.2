@@ -8,9 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var redSliderValue = Double.random(in: 0...255)
+    @State private var greenSliderValue = Double.random(in: 0...255)
+    @State private var blueSliderValue = Double.random(in: 0...255)
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        VStack{
+            Color(red: redSliderValue/255, green: greenSliderValue/255, blue: blueSliderValue/255)
+                .frame(height: 200)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white, lineWidth: 5)
+                )
+                .padding(.bottom, 30)
+            
+            ColorSliderView(color: .red, value: $redSliderValue)
+            ColorSliderView(color: .green, value: $greenSliderValue)
+            ColorSliderView(color: .blue, value: $blueSliderValue)
+            
+            Spacer()
+        }
+        .padding()
+        .background(.cyan)
     }
 }
 
@@ -19,3 +41,24 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+struct ColorSliderView: View {
+    
+    let color: Color
+    
+    @Binding var value: Double
+    
+    var body: some View {
+        
+        HStack {
+            Text("\(lround(value))")
+                .foregroundColor(color)
+                .frame(width: 35, alignment: .leading)
+            Slider(value: $value, in: 0...255, step: 1)
+                .accentColor(color)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.decimalPad)
+        }
+    }
+}
+
